@@ -69,21 +69,7 @@ module "businessunit2" {
     childgroupD0-ID = module.workloads.childgroupD0-ID
     
 }
-module "resource-group" {
-    source = "./rg"
-    resource-group-name = var.resource-group-name
-    location = var.location
-    
-}
-module "vnet" {
-    source = "./vnet"
-    vnet-name = var.vnet-name
-    vnet-address-space = var.vnet-address-space
-    resouce-group-name = module.resource-group.resource-group-name
-    location = module.resource-group.location
-    subnet-name = var.subnet-name
-    subnet-address-prefix = var.subnet-address-prefix
-}
+
 module "datafactory" {
     source = "./contos/platform/connectivity/storage/datafactory"
     rg-name = var.rg-name
