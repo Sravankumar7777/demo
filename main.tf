@@ -70,17 +70,34 @@ module "businessunit2" {
     
 }
 
-module "datafactory" {
-    source = "./contos/platform/connectivity/storage/datafactory"
-    rg-name = var.rg-name
-    location-name = var.location-name
-    storagename = var.storagename
-    strgcontname = var.strgcontname
-    blobfilename = var.blobfilename
-    dfname = var.dfname
-    cosmosdbname = var.cosmosdbname
-    cosmos-database = var.cosmos-database
-    cosmoscont-name = var.cosmoscont-name
-
-    
+module "resourcegroup" {
+  source = "./contos/platform/connectivity/storage/resourcegroup"
+  rg-name = var.rg-name
+  location= var.location
+  
 }
+
+module "storage" {
+  source = "./contos/platform/connectivity/storage/storage"
+  rg-name = module.resourcegroup.rg-name
+  location = module.resourcegroup.location
+  storagename = var.storagename
+  strgcontname = var.strgcontname
+  blobfilename =var.blobfilename
+
+}
+module "datafactory" {
+  source = "./contos/platform/connectivity/storage/datafactory"
+  dfname= var.dfname
+  rg-name = module.resourcegroup.rg-name
+  location = module.resourcegroup.location
+ 
+}
+ module "cosmosdb" {
+  source = "./contos/platform/connectivity/storage/cosmosdb"
+  cosmosdbname =var.cosmosdbname
+  cosmos-database =var.cosmos-database
+  cosmoscont-name =var.cosmoscont-name
+  rg-name = module.resourcegroup.rg-name
+  location = module.resourcegroup.location
+ }
